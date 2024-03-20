@@ -1,3 +1,4 @@
+<%@ page import = "com.huucuong.Util.SecurityUtil" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -10,13 +11,20 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item active"><a class="nav-link" href="#">Home
+				<li class="nav-item active"><a class="nav-link" href="<c:url value='/trang-chu'/>">Trang chủ
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">About</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Services</a>
-				</li>
-				<li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+				<security:authorize access = "isAnonymous()">
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/dang-nhap'/>">Đăng nhập</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Đăng kí</a></li>
+				</security:authorize>
+				
+				<security:authorize access = "isAuthenticated()">
+					<li class="nav-item"><a class="nav-link" href="#">Wellcome <%=SecurityUtil.getPrincipal().getFullname() %></a></li>	
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/dang-xuat'/>">Đăng xuất</a></li>
+				</security:authorize>
+				
+				
 			</ul>
 		</div>
 	</div>

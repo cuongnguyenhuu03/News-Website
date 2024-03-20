@@ -2,36 +2,31 @@ package com.huucuong.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "News")
-public class NewsEntity {
+@Table(name = "news")
+public class NewsEntity extends BaseEntity {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(name="title")
+	@Column(name = "title")
 	private String title;
 	
-	@Column(name="thumbnail")
+	@Column(name = "thumbnail")
 	private String thumbnail;
 	
-	
-	@Column(name="shortdescription", columnDefinition = "TEXT")
+	@Column(name = "shortdescription", columnDefinition = "TEXT")
 	private String shortDescription;
 	
-	@Column(name="content",columnDefinition = "TEXT")
+	@Column(name = "content", columnDefinition = "TEXT")
 	private String content;
-
-	public Long getId() {
-		return id;
-	}
-
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
+	
 	public String getTitle() {
 		return title;
 	}
@@ -62,5 +57,13 @@ public class NewsEntity {
 
 	public void setContent(String content) {
 		this.content = content;
-	}	
+	}
+
+	public CategoryEntity getCategory() {
+		return category;
+	}
+
+	public void setCategory(CategoryEntity category) {
+		this.category = category;
+	}
 }

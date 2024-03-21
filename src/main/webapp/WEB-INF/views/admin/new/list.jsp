@@ -13,7 +13,7 @@
 
 	<body>
 		<div class="main-content">
-		<form action="<c:url value='/admin-new'/>" id="formSubmit" method="get">
+		<form action="<c:url value='/quan-tri/bai-viet/danh-sach'/>" id="formSubmit" method="get">
 				<div class="main-content-inner">
 					<div class="breadcrumbs ace-save-state" id="breadcrumbs">
 						<ul class="breadcrumb">
@@ -81,6 +81,10 @@
 													</c:forEach>
 												</tbody>
 											</table>
+											<ul class="pagination" id="pagination"></ul>
+											
+											<input type="hidden" value="" id="page" name="page"/>
+											<input type="hidden" value="" id="limit" name="limit"/>	
 											
 										</div>
 									</div>
@@ -93,7 +97,24 @@
 		</div>
 		<!-- /.main-content -->
 		<script>
-			
+		
+		var totalPage = ${model.totalPage}
+		var currentPage  = ${model.page};
+		
+		$(function () {
+	        window.pagObj = $('#pagination').twbsPagination({
+	            totalPages: totalPage,
+	            visiblePages: 10,
+	            startPage: currentPage,
+	            onPageClick: function (event, page) {
+	            	if (currentPage != page) {
+	            		$('#limit').val(2);
+						$('#page').val(page);
+						$('#formSubmit').submit();
+					}
+	            }
+	        });
+	    });
 		</script>
 	</body>
 

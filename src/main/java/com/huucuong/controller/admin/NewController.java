@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.huucuong.dto.NewsDTO;
+import com.huucuong.service.ICategoryService;
 import com.huucuong.service.INewService;
 
 @Controller(value = "newControllerOfAdmin")
@@ -17,6 +18,9 @@ public class NewController {
 
 	@Autowired
 	private INewService newService;
+	
+	@Autowired
+	private ICategoryService categoryService;
 	
    @RequestMapping(value = "/quan-tri/bai-viet/danh-sach", method = RequestMethod.GET)
    public ModelAndView showList(@RequestParam("page") int page, 
@@ -37,8 +41,14 @@ public class NewController {
    }
    
    @RequestMapping(value = "/quan-tri/bai-viet/chinh-sua", method = RequestMethod.GET)
-   public ModelAndView editNews() {
+   public ModelAndView editNews(@RequestParam(value = "id", required = false) Long id) {
       ModelAndView mav = new ModelAndView("admin/new/edit");
+      NewsDTO model  = new NewsDTO();
+      if(id != null) {
+    	  model = newService.findById(id);
+      }
+      mav.addObject("categories", categoryService.findAll());
+      mav.addObject("model", model);
       return mav;
    }
 }   

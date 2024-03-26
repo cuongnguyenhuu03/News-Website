@@ -1,3 +1,5 @@
+<%@include file="/common/taglib.jsp"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -45,55 +47,51 @@
 		</div>
 
 		<!-- Content Row -->
-		<div class="row">
-			<div class="col-md-4 mb-5">
-				<div class="card h-100">
-					<div class="card-body">
-						<h2 class="card-title">Card One</h2>
-						<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-							adipisicing elit. Rem magni quas ex numquam, maxime minus quam
-							molestias corporis quod, ea minima accusamus.</p>
+		
+		<form action="<c:url value='/trang-chu'/>" id="formSubmit" method="get">
+			<div class="row">
+				<c:forEach var="item" items="${model.listResult}">
+					<div class="col-md-4 mb-5">
+						<div class="card h-100">
+							<div class="card-body">
+								<h5 class="card-title">${item.title}</h2>
+								<p class="card-text">${item.shortDescription}</p>
+							</div>
+							<div class="card-footer">
+								<a href="#" class="btn btn-primary btn-sm">More Info</a>
+							</div>
+						</div>
 					</div>
-					<div class="card-footer">
-						<a href="#" class="btn btn-primary btn-sm">More Info</a>
-					</div>
-				</div>
+				</c:forEach>
+					
 			</div>
-			<!-- /.col-md-4 -->
-			<div class="col-md-4 mb-5">
-				<div class="card h-100">
-					<div class="card-body">
-						<h2 class="card-title">Card Two</h2>
-						<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-							adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt
-							pariatur voluptatem sunt quam eaque, vel, non in id dolore
-							voluptates quos eligendi labore.</p>
-					</div>
-					<div class="card-footer">
-						<a href="#" class="btn btn-primary btn-sm">More Info</a>
-					</div>
-				</div>
-			</div>
-			<!-- /.col-md-4 -->
-			<div class="col-md-4 mb-5">
-				<div class="card h-100">
-					<div class="card-body">
-						<h2 class="card-title">Card Three</h2>
-						<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-							adipisicing elit. Rem magni quas ex numquam, maxime minus quam
-							molestias corporis quod, ea minima accusamus.</p>
-					</div>
-					<div class="card-footer">
-						<a href="#" class="btn btn-primary btn-sm">More Info</a>
-					</div>
-				</div>
-			</div>
-			<!-- /.col-md-4 -->
-
-		</div>
-		<!-- /.row -->
+			<ul class="pagination" id="pagination"></ul>						
+			<input type="hidden" value="" id="page" name="page"/>
+			<input type="hidden" value="" id="limit" name="limit"/>	
+		</form>
 
 	</div>
+	
+	<script>
+		
+	var totalPage = ${model.totalPage}
+	var currentPage  = ${model.page};
+	
+	$(function () {
+        window.pagObj = $('#pagination').twbsPagination({
+            totalPages: totalPage,
+            visiblePages: 10,
+            startPage: currentPage,
+            onPageClick: function (event, page) {
+            	if (currentPage != page) {
+            		$('#limit').val(3);
+					$('#page').val(page);
+					$('#formSubmit').submit();
+				}
+            }
+        });
+    });
+	</script>
 
 </body>
 

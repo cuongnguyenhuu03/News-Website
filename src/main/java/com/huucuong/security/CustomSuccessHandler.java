@@ -46,7 +46,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 		if (isAdmin(roles)) {
 			url = "/quan-tri/trang-chu";
 		} else if (isUser(roles)) {
-			url = "/trang-chu";
+			url = "/trang-chu?page=1&limit=3";
 		}
 		return url;
 	}

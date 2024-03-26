@@ -1,5 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+3<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@include file="/common/taglib.jsp"%>
+
+<c:url var="newURL" value="/quan-tri/bai-viet/danh-sach"/>
+<c:url var="editNewURL" value="/quan-tri/bai-viet/chinh-sua"/>
+<c:url var="newAPI" value="/api/new"/>
+
 <html>
 <head>
 <title>Chỉnh sửa bài viết</title>
@@ -32,10 +37,12 @@
 							<div class="form-group">
 								<label  class="col-sm-3 control-label no-padding-right" for="categoryCode">Thể Loại Bài Viết</label> 
 								<div class="col-sm-9">
+								
 									<form:select path="categoryCode" id = "categoryCode">
 										<form:option value="" label= "-- Chọn thể loại --" />
 										<form:options items="${categories}"  />
 									</form:select>
+									
 								</div>
 								
 							</div>
@@ -43,6 +50,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Tên Bài Viết</label>
 								<div class="col-sm-9">
+									<!-- path = name + value -->
 									<form:input path="title" cssClass="col-xs-10 col-sm-5" />
 								</div>
 							</div>
@@ -57,6 +65,7 @@
 							<div class="form-group">
   								<label class="col-sm-3 control-label no-padding-right" for="shortDecription">Mô tả ngắn</label>
   								<div class="col-sm-9">
+  								
   									<form:textarea path="shortDescription" rows="5" cols="10" cssClass="form-control" id="shortDescription" />
 								</div>
 							</div>
@@ -69,7 +78,9 @@
   								
 							</div>
 
-
+							
+							<form:hidden path="id" id = "newsId" />
+							
 							<div class="clearfix form-actions">
 								<div class="col-md-offset-3 col-md-9">
 								
@@ -105,21 +116,54 @@
 	</div>
 	
 <script>
-	$('#btnAddOrUpdateNew').click(function (e) {
+ 	$('#btnAddOrUpdateNew').click(function (e) {
 	    e.preventDefault();
 	    var data = {};
 	    var formData = $('#formSubmit').serializeArray();
-	    console.log(formData);
-	    $.each(formData, function (i, v) {
-            data[""+v.name+""] = v.value;
-        });
-	    var id = $('#newId').val();
-	    if (id == "") {
-	    	addNew(data);
-	    } else {
-	    	updateNew(data);
+	    $.each(formData, function(i, v){
+	    	data[""+v.name+""] = v.value;
+ 		});
+	    
+	    var id = $('#newsId').val();
+	    if(id == ""){
+	    	addNews(data);
+	    }else {
+	    	updateNews(data);
 	    }
 	});
+ 	
+ 	
+ 	function addNews(data){
+ 		$.ajax({
+            url: '${newAPI}',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function (result) {
+            	window.location.href = "${newURL}?page=1&limit=2";
+            },
+            error: function (error) {
+            	window.location.href = "${newURL}?page=1&limit=2";
+            }
+        });
+ 	}
+ 	
+ 	function updateNews(data){
+ 		$.ajax({
+            url: '${newAPI}',
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function (result) {
+            	window.location.href = "${newURL}?page=1&limit=2";
+            },
+            error: function (error) {
+            	window.location.href = "${newURL}?page=1&limit=2";
+            }
+        });
+ 	}
 </script>
 </body>
 </html>

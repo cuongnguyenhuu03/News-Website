@@ -10,4 +10,5 @@ public interface INewService {
 	List<NewsDTO> findAll(Pageable pageable);
 	int getTotaltem();
 	NewsDTO findById(long id);
+	NewsDTO save(NewsDTO dto);
 }

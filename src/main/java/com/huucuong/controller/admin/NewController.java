@@ -23,8 +23,7 @@ public class NewController {
 	private ICategoryService categoryService;
 	
    @RequestMapping(value = "/quan-tri/bai-viet/danh-sach", method = RequestMethod.GET)
-   public ModelAndView showList(@RequestParam("page") int page, 
-		   						@RequestParam("limit") int limit) {
+   public ModelAndView showList(@RequestParam("page") int page, @RequestParam("limit") int limit) {
 	  NewsDTO model = new NewsDTO();
 	  model.setPage(page);
 	  model.setLimit(limit);

@@ -32,6 +32,13 @@
 			<div class="page-content">
 				<div class="row">
 					<div class="col-xs-12">
+					
+						<c:if test="${not empty message}">
+							<div class="alert alert-${alert}">
+  								${message}
+							</div>
+						</c:if>
+					
 						<form:form class="form-horizontal" role="form" id="formSubmit" modelAttribute="model">
 
 							<div class="form-group">
@@ -141,10 +148,10 @@
             data: JSON.stringify(data),
             dataType: 'json',
             success: function (result) {
-            	window.location.href = "${newURL}?page=1&limit=2";
+            	window.location.href = "${editURL}?id="+result.id +"&message=insert_success";
             },
             error: function (error) {
-            	window.location.href = "${newURL}?page=1&limit=2";
+            	window.location.href = "${newURL}?page=1&limit=2&message=error_system";
             }
         });
  	}
@@ -157,10 +164,10 @@
             data: JSON.stringify(data),
             dataType: 'json',
             success: function (result) {
-            	window.location.href = "${newURL}?page=1&limit=2";
+            	window.location.href = "${editURL}?id="+result.id +"&message=update_success";
             },
             error: function (error) {
-            	window.location.href = "${newURL}?page=1&limit=2";
+            	window.location.href = "${editURL}?id="+result.id +"&message=error_system";
             }
         });
  	}

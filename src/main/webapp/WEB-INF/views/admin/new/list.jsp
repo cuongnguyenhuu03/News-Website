@@ -46,7 +46,7 @@
 																<i class="fa fa-plus-circle bigger-110 purple"></i>
 															</span>
 												</a>
-												<button id="btnDelete" type="button"
+												<button id="btnDelete" type="button" onclick="warningBeforeDelete()"
 														class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Xóa bài viết'>
 																<span>
 																	<i class="fa fa-trash-o bigger-110 pink"></i>
@@ -57,6 +57,11 @@
 									</div>
 								</div>
 								<div class="row">
+									<c:if test="${not empty message}">
+										<div class="alert alert-${alert}">
+			  								${message}
+										</div>
+									</c:if>
 									<div class="col-xs-12">
 										<div class="table-responsive">
 											<table class="table table-bordered">
@@ -113,13 +118,50 @@
 	            startPage: currentPage,
 	            onPageClick: function (event, page) {
 	            	if (currentPage != page) {
-	            		$('#limit').val(2);
+	            		$('#limit').val(6);
 						$('#page').val(page);
 						$('#formSubmit').submit();
 					}
 	            }
 	        });
 	    });
+		
+		
+		function warningBeforeDelete(){
+			swal({
+				  title: "Xác nhận xóa?",
+				  text: "Bạn có chắc muốn xóa hay không",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonClass: "btn-danger",
+				  cancelButtonClass: "btn-success",
+				  confirmButtonText: "Xác nhận",
+				  cancelButtonText: "Hủy bỏ",
+				}).then(function(isConfirm) {
+					if (isConfirm) {
+						var ids = $('tbody input[type=checkbox]:checked').map(function () {
+				            return $(this).val();
+				        }).get();
+						deleteNew(ids);
+				  }
+				});
+		}
+		
+		function deleteNew(data) {
+	        $.ajax({
+	            url: '${newAPI}',
+	            type: 'DELETE',
+	            contentType: 'application/json',
+	            data: JSON.stringify(data), 
+	            success: function (result) {
+	                window.location.href = "${newURL}?page=1&limit=6&message=delete_success";
+	            },
+	            error: function (error) {
+	            	window.location.href = "${newURL}?page=1&limit=6&message=error_system";
+	            }
+	        });
+	    }
+		
 		</script>
 	</body>
 

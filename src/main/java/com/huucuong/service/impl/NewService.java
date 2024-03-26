@@ -68,6 +68,15 @@ public class NewService implements INewService {
 		}
 		return newsConverter.toDTO(newsRepository.save(newsEntity));
 	}
+
+	@Override
+	@Transactional
+	public void delete(long[] id) {
+		for (long idNews : id) {
+			newsRepository.delete(idNews);
+		}
+		
+	}
 	
 	
 
